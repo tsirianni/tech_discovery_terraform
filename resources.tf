@@ -45,4 +45,5 @@ module "lambda" {
 
 module "iam" {
   source = "./modules/iam"
+  workspace = terraform.workspace
 }

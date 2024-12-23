@@ -41,6 +41,8 @@ resource "aws_s3_bucket_versioning" "terraform_state_bucket_versioning" {
 
 module "lambda" {
   source = "./modules/lambda"
+  workspace = terraform.workspace
+  hello_world_lambda_role_arn = module.iam.hello_world_lambda_role_arn
 }
 
 module "iam" {

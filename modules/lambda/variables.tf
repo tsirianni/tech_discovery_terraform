@@ -38,3 +38,15 @@ variable "hello_world_lambda_prod_env_file_key" {
   default     = "hello-world/.env"
   description = "The key to the PROD Hello World Lambda .env"
 }
+
+variable "hello_world_lambda_qa_zip_package" {
+  type        = string
+  default     = "qa-hello-world/qa-hello-world.zip"
+  description = "The key of the zip file that contains the QA source code"
+}
+
+variable "hello_world_lambda_prod_zip_package" {
+  type        = string
+  default     = "hello-world/hello-world.zip"
+  description = "The key of the zip file that contains the PROD source code"
+}

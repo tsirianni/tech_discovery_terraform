@@ -5,6 +5,7 @@ locals {
   hello_world_function_name         = var.workspace == "qa" ? var.hello_world_lambda_qa_name : var.hello_world_lambda_prod_name
   hello_world_function_env_file_key = var.workspace == "qa" ? var.hello_world_lambda_qa_env_file_key : var.hello_world_lambda_prod_env_file_key
   hello_world_env_file_content      = data.aws_s3_object.hello_world_env_file.body
+  hello_world_function_code_key     = var.workspace == "qa" ? var.hello_world_lambda_qa_zip_package : var.hello_world_lambda_prod_zip_package
 
   env_vars = tomap({
     for variable in [
@@ -42,7 +43,7 @@ resource "aws_lambda_function" "hello_world" {
   replacement_security_group_ids     = null
   runtime                            = "nodejs18.x"
   s3_bucket                          = var.lambda_bucket
-  s3_key                             = "qa-hello-world/qa-hello-world.zip"
+  s3_key                             = local.hello_world_function_code_key
   s3_object_version                  = null
   skip_destroy                       = false
   timeout                            = 60

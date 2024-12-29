@@ -7,7 +7,7 @@ locals {
   hello_world_env_file_content      = data.aws_s3_object.hello_world_env_file.body
   hello_world_function_code_key     = var.workspace == "qa" ? var.hello_world_lambda_qa_zip_package : var.hello_world_lambda_prod_zip_package
 
-  env_vars = tomap({
+  env_vars = var.workspace != "default" ? tomap({
     for variable in [
       for line in split("\n", local.hello_world_env_file_content) :
       trimspace(line)
@@ -16,10 +16,11 @@ locals {
 
     # Apply the regex to extract key and value from the line
     trimspace(regex("^(.*)=(.*)$", variable)[0]) => trimspace(regex("^(.*)=(.*)$", variable)[1])
-  })
+  }) : null
 }
 
 resource "aws_s3_object" "hello_world_env_file" {
+  count  = local.resource_count
   bucket = var.lambda_bucket
   key    = local.hello_world_function_env_file_key
 }

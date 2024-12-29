@@ -13,5 +13,6 @@ data "aws_iam_policy_document" "lambda_assume_role_policy" {
 }
 
 data "aws_iam_role" "hello_world_lambda_role" {
+  count  = local.resource_count
   name = aws_iam_role.hello_world_lambda_role[0].name
 }
